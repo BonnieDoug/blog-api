@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Retireable;
+use App\Entity\Traits\Timestampable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
@@ -15,17 +18,53 @@ use ApiPlatform\Core\Annotation\ApiResource;
  */
 class Element
 {
+
+    use Retireable;
+    use Timestampable;
+
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
     /**
-     * @ORM\Column(name="is_retired", type="boolean")
-     * @var bool
+     * @ORM\OneToMany(targetEntity="ElementTag", mappedBy="tag")
      */
-    private $isRetired = false;
+    private $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     * @return Element
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+        return $this;
+    }
+
+
 
 }

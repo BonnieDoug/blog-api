@@ -16,9 +16,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
 class UserElement
 {
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 }

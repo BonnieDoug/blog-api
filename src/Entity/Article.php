@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 
+use App\Entity\Traits\Retireable;
+use App\Entity\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
@@ -14,10 +16,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
  */
 class Article
 {
+
+    use Retireable;
+    use Timestampable;
+
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
@@ -34,27 +40,72 @@ class Article
     private $content;
 
     /**
-     * @ORM\Column(name="created_at")
-     * @var \DateTime
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(name="updated_at")
-     * @var \DateTime
-     */
-    private $updatedAt = null;
-
-    /**
-     * @ORM\Column(name="is_retired")
-     * @var bool
-     */
-    private $isRetired = false;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Element")
      */
     private $element;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return Article
+     */
+    public function setTitle(string $title): Article
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     * @return Article
+     */
+    public function setContent(string $content): Article
+    {
+        $this->content = $content;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getElement()
+    {
+        return $this->element;
+    }
+
+    /**
+     * @param mixed $element
+     * @return Article
+     */
+    public function setElement($element)
+    {
+        $this->element = $element;
+        return $this;
+    }
+
 
 
 }

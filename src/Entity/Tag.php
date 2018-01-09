@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Retireable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
@@ -15,13 +17,31 @@ use ApiPlatform\Core\Annotation\ApiResource;
  */
 class Tag
 {
+
+    use Retireable;
+
     /**
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @var integer
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @ORM\Column()
+     * @var static
+     */
     private $name;
-    private $isRetired = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ElementTag", mappedBy="element")
+     */
+    private $elements;
+
+    public function __construct()
+    {
+        $this->elements = new ArrayCollection();
+    }
 
 }
